@@ -1,7 +1,6 @@
 require_relative 'config/application'
-require_relative 'app/model/task'
+require_relative 'app/models/task'
 
-# puts "Put your application code in #{File.expand_path(__FILE__)}"
 
 class TaskMaster
   def initialize()
@@ -13,29 +12,22 @@ class TaskMaster
   def run(command)
 
     case @command.downcase
+    
     when "list"
       puts Task.view
-      # puts "Full task list:"
-      # @list.tasks.each do |task|
-      #   puts "#{task.id}: #{task.content}"
-      end
+
     when "delete"
       raise "Must delete by task ID (number)" unless /\d+/.match(ARGV[1])
-      # input = ""
-      # puts "Are you sure you want to delete #{ARGV[1]}? (y/n)"
-      # input = gets.chomp
-      # if input == "y"
-        puts "# of tasks before delete: #{@list.tasks.length}"
+
+        # puts "# of tasks before delete: #{@list.tasks.length}"
         Task.delete(ARGV[1])
         "So accomplished!"
-        puts "# of tasks after delete: #{@list.tasks.length}"
-      # else
-      #   puts "Aborting delete..."
-      #   EXIT
-      # end
+        # puts "# of tasks after delete: #{@list.tasks.length}"
+
     when "complete"
-      # raise "Must complete by task ID (integer)" unless ARGV[1].is_a?(Integer)
       Task.mark_complete(ARGV[1])
+    when "uncomplete"
+      Task.un_complete(ARGV[1])
     when "add"
       raise "Must add something..." unless ARGV.length > 1
       task_to_add = ""
@@ -44,6 +36,7 @@ class TaskMaster
     else
       puts "I can't do that, Dave"
     end
+
   end
 end
 
